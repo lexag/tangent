@@ -9,4 +9,15 @@ class MessageBlob {
 	appendMessage(message) {
 		this.messages.push(message)
 	}
+
+	getAncestry() {
+		var ancestry = []
+		var m = this;
+		do {
+			ancestry.push(m)
+			m = m.parent
+		} while(m != null)
+		ancestry.reverse()
+		return ancestry;
+	}
 }

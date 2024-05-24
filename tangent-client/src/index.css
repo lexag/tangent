@@ -150,8 +150,8 @@ button {
 	background-color: var(--col_03dp);
 }
 
-.linear-message-bubble >* p {
-	margin:0;
+p {
+	margin: 0;
 }
 
 .linear-message-info-line {

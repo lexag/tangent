@@ -2,17 +2,16 @@ class MessageBlob {
 	constructor(_parent) {
 		this.id = Date.now()
 		this.parent = _parent;
-		this.children = []
 		this.messages = []
 	}
 
-	appendMessage(message) {
-		this.messages.push(message)
+	static appendMessage(messageBlob, message) {
+		messageBlob.messages.push(message)
 	}
 
-	getAncestry() {
+	static getAncestry(messageBlob) {
 		var ancestry = []
-		var m = this;
+		var m = messageBlob;
 		do {
 			ancestry.push(m)
 			m = m.parent
@@ -21,3 +20,5 @@ class MessageBlob {
 		return ancestry;
 	}
 }
+
+module.exports = MessageBlob

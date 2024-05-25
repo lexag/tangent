@@ -1,8 +1,7 @@
+
 function click_sendButton() {
 	sendMessage($("#linearChatbox").val());
 	$("#linearChatbox").val("");
-	redrawLinearChat()
-	redrawGraph();
 }
 
 $("#linearChatbox").keypress(function (e) {
@@ -15,15 +14,26 @@ $("#linearChatbox").keypress(function (e) {
 
 
 
-function redrawLinearChat() {
+function redrawLinearChat(tree, messageBlob) {
 	$(".linear-message-space").empty();
 	last_author = ""
-	MessageBlob.getAncestry(selectedMessageBlob).forEach(blob => {
+	var ancestry = []
+	var m = messageBlob;
+	while (m != null) {
+		ancestry.push(m)
+		m = tree.blobs[m.parent_id]
+	}
+	ancestry.reverse()
+	console.log(ancestry)
+	
+	ancestry.forEach(blob => {
+		var n = 0;
 		blob.messages.forEach(message => {
 			var b = $($("#template-linear-message-bubble").html());
 			$(".linear-message-space").append(b);
 			b.find("p").text(message.text);
-			b.find(".branch-button").attr('id', message.time)
+			b.find(".branch-button").attr('message_index', n)
+			b.find(".branch-button").attr('blob_id', blob.id)
 			if (message.author == last_author) {
 				b.find(".linear-message-info-line > .author-label").hide()
 				b.find(".linear-message-info-line > .time-label").hide()
@@ -32,11 +42,14 @@ function redrawLinearChat() {
 				b.find(".linear-message-info-line > .time-label").text(new Date(parseInt(message.time)).toLocaleString());
 			}
 			last_author = message.author
+			n++;
 		});
 	});
 }
 
 
-function click_branchButton(id) {
-	branchAtMessage(id);
+function click_branchButton(message_element) {
+	var idx = message_element.getAttribute('message_index')
+	var id = message_element.getAttribute('blob_id')
+	branchAtMessage(idx, id);
 }

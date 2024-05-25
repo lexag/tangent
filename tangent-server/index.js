@@ -8,7 +8,7 @@ const BlobTree = require('../common/class/blobTree.js');
 const MessageBlob = require('../common/class/messageBlob.js');
 
 function initTree() {
-	let newTree = new BlobTree([new MessageBlob(null)])
+	let newTree = new BlobTree({0: new MessageBlob(null)})
 	jsonfile.writeFile('/tangent/server/data/tree.json', newTree)
 }
 
@@ -23,7 +23,7 @@ jsonfile.readFile('/tangent/server/data/tree.json')
 	.catch(error => console.error(error))
 
 
-
+initTree();
 
 // Handle requests to the url "/" ( http://localhost:3000/ )
 server({ security: { csrf: false } },
@@ -33,6 +33,12 @@ server({ security: { csrf: false } },
 			BlobTree.addMessageToBlob(tree, ctx.data.blob_id, ctx.data.message)
 			saveTree(tree)
 			return status(201)
+		}),
+		post('/branch', ctx => {
+			console.log(ctx.data)
+			var newBlob = BlobTree.splitBlobAtMessageIndex(tree, ctx.data.blob_id, ctx.data.message_index)
+			saveTree(tree)
+			return status(201).send({"tree": tree, "new_id": newBlob.id})
 		}),
 		error(ctx => { console.error('error 500: ' + ctx.error.message); return status(500).send(ctx.error.message); }),
 	]);

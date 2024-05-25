@@ -1,7 +1,7 @@
 class MessageBlob {
-	constructor(_parent) {
-		this.id = Date.now()
-		this.parent = _parent;
+	constructor(_parent_id, id_offset) {
+		this.id = (_parent_id == null) ? 0 : Date.now() + id_offset
+		this.parent_id = _parent_id;
 		this.messages = []
 	}
 
@@ -9,13 +9,13 @@ class MessageBlob {
 		messageBlob.messages.push(message)
 	}
 
-	static getAncestry(messageBlob) {
+	static getAncestry(tree, messageBlob) {
 		var ancestry = []
 		var m = messageBlob;
-		do {
+		while (m != null) {
 			ancestry.push(m)
-			m = m.parent
-		} while(m != null)
+			m = tree.blobs[m.parent_id]
+		}
 		ancestry.reverse()
 		return ancestry;
 	}

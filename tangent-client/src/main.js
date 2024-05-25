@@ -1,11 +1,10 @@
-const MessageBlob = require('../../common/class/messageBlob')
+const MessageBlob = require("../../common/class/messageBlob");
 const Message = require('../../common/class/message')
 
 const storage = require('electron-json-storage');
 
-var selectedMessageBlob = null;
-var rootMessageBlob;
-var tree;
+window.selectedMessageBlob = null;
+window.globalTree;
 
 var serverURL = "http://localhost:3000"
 var userName = "Anonymous User"
@@ -13,10 +12,9 @@ var userName = "Anonymous User"
 function startup() {
 	getTreeFromServer(serverURL)
 		.then(tree => {
-			console.dir(tree)
-			selectedMessageBlob = tree.blobs[0]
-			rootMessageBlob = tree.blobs[0]
-			redrawLinearChat();
+			window.globalTree = tree
+			window.selectedMessageBlob = tree.blobs[0]
+			redrawLinearChat(tree, selectedMessageBlob);
 			redrawGraph(tree);
 		})
 }
@@ -48,28 +46,42 @@ async function getTreeFromServer(url) {
 
 
 function sendMessage(text, author = userName) {
-	if (rootMessageBlob == null) {
+	if (window.globalTree.blobs.length == 0) {
 		throw new Error('No root message blob found!')
-		rootMessageBlob = new MessageBlob(null);
-		selectedMessageBlob = rootMessageBlob;
 	}
 
 	var newMessage = new Message(author, text)
-	MessageBlob.appendMessage(selectedMessageBlob, newMessage);
+	MessageBlob.appendMessage(window.selectedMessageBlob, newMessage);
 
 
 	$.ajax({
 		url: serverURL + '/message',
 		type: 'post',
-		data: { 'message': newMessage, 'blob_id': selectedMessageBlob.id },
+		data: { 'message': newMessage, 'blob_id': window.selectedMessageBlob.id },
 		dataType: 'json',
 		success: function (data) {
 			console.info(data);
 		}
 	});
+
+	redrawLinearChat(window.globalTree, window.selectedMessageBlob)
+	redrawGraph(window.globalTree);
 }
 
 
-function branchAtMessage(id) {
-	throw new Error('branchAtMessage is not implemented')
+function branchAtMessage(idx, blob_id) {
+	console.log({ 'message_index': idx, 'blob_id': blob_id })
+	$.ajax({
+		url: serverURL + '/branch',
+		type: 'post',
+		data: { 'message_index': idx, 'blob_id': blob_id },
+		dataType: 'json',
+		success: function (data) {
+			window.globalTree = data.tree
+			var frontBlob = window.globalTree[data.new_id]
+			selectedMessageBlob = frontBlob
+			redrawGraph(window.globalTree)
+			redrawLinearChat(window.globalTree, frontBlob)
+		}
+	});
 }

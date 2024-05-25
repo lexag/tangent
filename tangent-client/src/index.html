@@ -10,7 +10,7 @@
 	<meta charset="UTF-8" />
 	<title>Tangent Client</title>
 	<link rel="stylesheet" href="index.css" />
-	<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400" rel="stylesheet" />
 </head>
 
 <body>
@@ -44,8 +44,9 @@
 		<div class="graph-window">
 			<div class="graph-space"><canvas></canvas></div>
 			<div class="graph-toolbar">
-				<div class="graph-toolbar-slot"><button class="toolbar-button interactive gray">
-						<p class="material-symbols-outlined">A</p>
+				<div class="graph-toolbar-slot"><button class="toolbar-button interactive gray"
+						onclick="click_connectionSettingsButton()">
+						<span class="material-symbols-outlined">wifi</span>
 					</button></div>
 				<div class="graph-toolbar-slot"><button class="toolbar-button interactive gray">
 						<p class="material-symbols-outlined">B</p>
@@ -69,15 +70,26 @@
 			</div>
 			<div class="chatbox-container">
 				<textarea name="Message box" id="linearChatbox"></textarea>
-				<button class="toolbar-button interactive primary"><svg xmlns="http://www.w3.org/2000/svg" height="24px"
-						viewBox="0 -960 960 960" width="24px" fill="#e8eaed" onclick="click_sendButton()">
-						<path
-							d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z" />
-					</svg></button>
+				<button class="toolbar-button interactive primary" onclick="click_sendButton()"><span
+						class="material-symbols-outlined">send</span></button>
 			</div>
 		</div>
 		<script src="GUI/linearMessageWindow.js"></script>
 	</div>
+
+	<script src="GUI/workspace.js"></script>
+
+	<dialog id="connection-settings" class="popup">
+		<div class="flex, vertical-flex">
+			<p>Server Address</p>
+			<input type="text" name="Server_Address" id="connection-server-address">
+			<p>Username</p>
+			<input type="text" name="Username" id="connection-username">
+			<button class="interactive primary" onclick="click_applyConnectionSettings()">
+				<p>Apply</p>
+			</button>
+		</div>
+	</dialog>
 </body>
 
 

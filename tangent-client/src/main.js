@@ -5,6 +5,9 @@ var selectedMessageBlob = null;
 var rootMessageBlob;
 var tree;
 
+var serverURL = "http://localhost:3000"
+var userName = "Anonymous User"
+
 function startup() {
 	console.log("running startup")
 	getTreeFromServer()
@@ -28,7 +31,7 @@ async function getTreeFromServer() {
 }
 
 
-function sendMessage(author, text) {
+function sendMessage(text, author = userName) {
 	if (rootMessageBlob == null) {
 		throw new Error('No root message blob found!')
 		rootMessageBlob = new MessageBlob(null);
@@ -40,7 +43,7 @@ function sendMessage(author, text) {
 
 
 	$.ajax({
-		url: 'http://localhost:3000/message',
+		url: serverURL + '/message',
 		type: 'post',
 		data: { 'message': newMessage, 'blob_id': selectedMessageBlob.id },
 		dataType: 'json',

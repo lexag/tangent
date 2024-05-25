@@ -1,5 +1,5 @@
 function click_sendButton() {
-	sendMessage("some author", $("#linearChatbox").val());
+	sendMessage($("#linearChatbox").val());
 	$("#linearChatbox").val("");
 	redrawLinearChat()
 }

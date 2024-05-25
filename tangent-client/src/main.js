@@ -13,9 +13,11 @@ var userName = "Anonymous User"
 function startup() {
 	getTreeFromServer(serverURL)
 		.then(tree => {
+			console.dir(tree)
 			selectedMessageBlob = tree.blobs[0]
 			rootMessageBlob = tree.blobs[0]
 			redrawLinearChat();
+			redrawGraph(tree);
 		})
 }
 
@@ -29,22 +31,23 @@ function saveSettingsToStorage() {
 }
 
 async function getTreeFromServer(url) {
+	let dat = null
 	await $.ajax({
 		url: url,
 		type: 'get',
 		dataType: 'json',
 		success: data => {
-			return data
+			dat = data
 		}
 	})
 	.catch(e => {
 		console.error(e);
 	});
+	return dat;
 }
 
 
 function sendMessage(text, author = userName) {
-	saveSettingsToStorage();
 	if (rootMessageBlob == null) {
 		throw new Error('No root message blob found!')
 		rootMessageBlob = new MessageBlob(null);

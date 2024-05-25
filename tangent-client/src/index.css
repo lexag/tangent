@@ -1,9 +1,9 @@
 body {
 	margin:0;
 	--col_bg: #121212;
-	--col_03dp: rgba(255, 255, 255, 8%);
-	--col_06dp: rgba(255, 255, 255, 11%);
-	--col_12dp: rgba(255, 255, 255, 14%);
+	--col_03dp: #2C2C2C;
+	--col_06dp: #3D3D3D;
+	--col_12dp: #5E5E5E;
 	--col_primary: #034efc;
 	--col_white: #dcdfe6;
 	
@@ -17,7 +17,7 @@ body {
 }
 
 .sidebar {
-	background-color: var(--col_03dp);
+	background-color: var(--col_bg);
 	height: 100%;
 	width: 5%;
 	min-width: 50px;
@@ -45,7 +45,11 @@ body {
 
 .linear-window {
 	background-color: var(--col_bg);
-	min-width: 400px;
+	/* min-width: 400px; */
+	position: fixed;
+	width: 48%;
+	height: 100%;
+	right:0px;
 	border-left: var(--border-thickness) solid var(--col_primary);
 	padding: var(--padding-thickness);
 	display: flex;
@@ -59,17 +63,14 @@ body {
 	background-color: var(--col_bg);
 	width: 50%;
 	z-index: 1;
-}
-
-.graph-space {
-	width: 60vw;
-	height: 80vh;
+	min-height: 500px;
 }
 
 .chatbox-container {
 	position: relative;
 	width:100%;
 	height:100px;
+	margin: var(--padding-thickness);
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -79,7 +80,7 @@ body {
 	width:100%;
 	height:100%;
 	color: var(--col_white);
-	background-color: var(--col_06dp);
+	background-color: var(--col_03dp);
 	border: none;
 	border-radius: var(--round_corners);
 
@@ -87,26 +88,31 @@ body {
 }
 
 .graph-toolbar {
+	position: fixed;
+	bottom: var(--padding-thickness);
+	width: inherit;
+	height: min-content;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
 	align-items: center;
-	border-radius: 32px;
+	border-radius: 20px;
 }
 
 .toolbar-button {
 	border-radius: 50%;
-	height: 64px;
+	height: 40px;
 	aspect-ratio: 1/1;
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
+	margin: var(--padding-thickness);
 }
 
 
 .gray {
-	background-color: var(--col_03dp);
+	background-color: var(--col_06dp);
 }
 
 .primary {
@@ -135,7 +141,7 @@ button {
 	height:100%;
 	border-radius: var(--round_corners);
 	margin: var(--padding-thickness);
-	background-color: var(--col_06dp);
+	background-color: var(--col_03dp);
 	display: flex;
 	flex-direction: column;
 }
@@ -143,8 +149,7 @@ button {
 
 
 .linear-message-bubble {
-	margin: var(--padding-thickness);
-	padding: var(--padding-thickness);
+	padding: calc(var(--padding-thickness)/2);
 	border-radius: var(--round_corners);
 	color: var(--col_white);
 	display: flex;
@@ -152,6 +157,10 @@ button {
 	justify-content: start;
 	align-items: left;
 	background-color: var(--col_03dp);
+
+	&:hover {
+		background-color: var(--col_06dp);
+	}
 }
 
 p {
@@ -165,6 +174,12 @@ p {
 	justify-content: space-between;
 	margin-bottom: 0;
 	height: fit-content;
+
+	& > p {
+		color:var(--col_white);
+		text-rendering: optimizeLegibility;
+		font-weight: bold;
+	}
 }
 
 .delimiter {
@@ -203,4 +218,11 @@ p {
 
 .material-symbols-outlined {
 	color: var(--col_white);
+}
+
+div[id^='JSCharting_'] > path {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background-color: #121212;
 }

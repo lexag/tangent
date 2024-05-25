@@ -42,7 +42,8 @@
 				</button></div>
 		</div> -->
 		<div class="graph-window">
-			<div class="graph-space"><canvas></canvas></div>
+			<script type="text/javascript" src="../node_modules/jscharting/dist/jscharting.js"></script>
+			<div class="graph-space"><div id="tree-graph"></div></div>
 			<div class="graph-toolbar">
 				<div class="graph-toolbar-slot"><button class="toolbar-button interactive gray"
 						onclick="click_connectionSettingsButton()">
@@ -65,6 +66,7 @@
 					</button></div>
 			</div>
 		</div>
+		<script src="GUI/graphWindow.js"></script>
 		<div class="linear-window">
 			<div class="linear-message-space">
 			</div>
@@ -101,7 +103,6 @@
 		</div>
 		<p>Hello this is a test message. Wow.</p>
 	</div>
-	<div class="delimiter horizontal"></div>
 </template>
 
 </html>

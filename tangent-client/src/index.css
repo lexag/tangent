@@ -127,10 +127,6 @@ body {
 }
 
 
-button > p {
-	font-size: 24px;
-}
-
 button {
 	border-radius: var(--round_corners);
 	border:none;
@@ -148,19 +144,22 @@ button {
 
 
 
-.linear-message-bubble {
+.linear-message-content {
 	padding: calc(var(--padding-thickness)/2);
-	border-radius: var(--round_corners);
 	color: var(--col_white);
 	display: flex;
 	flex-direction: column;
 	justify-content: start;
 	align-items: left;
-	background-color: var(--col_03dp);
 
-	&:hover {
-		background-color: var(--col_06dp);
-	}
+	max-width: 90%;
+}
+
+.branch-button {
+	position: relative;
+	color: var(--col_bg);
+	background-color: var(--col_primary);
+	display: none;
 }
 
 p {
@@ -171,7 +170,7 @@ p {
 .linear-message-info-line {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
+	justify-content: right;
 	margin-bottom: 0;
 	height: fit-content;
 
@@ -179,6 +178,24 @@ p {
 		color:var(--col_white);
 		text-rendering: optimizeLegibility;
 		font-weight: bold;
+		margin-right: 1rem;
+	}
+}
+
+.linear-message-bubble {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	background-color: var(--col_03dp);
+	border-radius: var(--round_corners);
+	
+	&:hover {
+		background-color: var(--col_06dp);
+	}
+
+	&:hover .branch-button {
+		display: inline-block;
 	}
 }
 

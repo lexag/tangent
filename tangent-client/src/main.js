@@ -69,3 +69,7 @@ function sendMessage(text, author = userName) {
 	});
 }
 
+
+function branchAtMessage(id) {
+	throw new Error('branchAtMessage is not implemented')
+}

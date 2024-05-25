@@ -43,7 +43,9 @@
 		</div> -->
 		<div class="graph-window">
 			<script type="text/javascript" src="../node_modules/jscharting/dist/jscharting.js"></script>
-			<div class="graph-space"><div id="tree-graph"></div></div>
+			<div class="graph-space">
+				<div id="tree-graph"></div>
+			</div>
 			<div class="graph-toolbar">
 				<div class="graph-toolbar-slot"><button class="toolbar-button interactive gray"
 						onclick="click_connectionSettingsButton()">
@@ -97,11 +99,14 @@
 
 <template id="template-linear-message-bubble">
 	<div class="linear-message-bubble">
-		<div class="linear-message-info-line">
-			<p class="author-label">Axel Stenberg</p>
-			<p class="time-label">08:45</p>
+		<div class="linear-message-content">
+			<div class="linear-message-info-line">
+				<p class="author-label">Axel Stenberg</p>
+				<p class="time-label">08:45</p>
+			</div>
+			<p>Hello this is a test message.</p>
 		</div>
-		<p>Hello this is a test message. Wow.</p>
+		<button class="branch-button interactive" onclick="click_branchButton(this.id)"><span class="material-symbols-outlined">arrow_split</span></button>
 	</div>
 </template>
 

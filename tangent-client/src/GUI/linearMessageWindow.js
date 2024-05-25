@@ -23,6 +23,7 @@ function redrawLinearChat() {
 			var b = $($("#template-linear-message-bubble").html());
 			$(".linear-message-space").append(b);
 			b.find("p").text(message.text);
+			b.find(".branch-button").attr('id', message.time)
 			if (message.author == last_author) {
 				b.find(".linear-message-info-line > .author-label").hide()
 				b.find(".linear-message-info-line > .time-label").hide()
@@ -33,4 +34,9 @@ function redrawLinearChat() {
 			last_author = message.author
 		});
 	});
+}
+
+
+function click_branchButton(id) {
+	branchAtMessage(id);
 }

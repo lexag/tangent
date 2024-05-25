@@ -1,6 +1,8 @@
 const MessageBlob = require('../../common/class/messageBlob')
 const Message = require('../../common/class/message')
 
+const storage = require('electron-json-storage');
+
 var selectedMessageBlob = null;
 var rootMessageBlob;
 var tree;
@@ -9,29 +11,40 @@ var serverURL = "http://localhost:3000"
 var userName = "Anonymous User"
 
 function startup() {
-	console.log("running startup")
-	getTreeFromServer()
-	.then(() => {
-		selectedMessageBlob = tree.blobs[0]
-		redrawLinearChat();
-	})
+	getTreeFromServer(serverURL)
+		.then(tree => {
+			selectedMessageBlob = tree.blobs[0]
+			rootMessageBlob = tree.blobs[0]
+			redrawLinearChat();
+		})
 }
 
 
-async function getTreeFromServer() {
+function saveSettingsToStorage() {
+	storage.set(
+		'user', {
+		'username': userName,
+		'serverURL': serverURL
+	}).then(x => console.log("saved"))
+}
+
+async function getTreeFromServer(url) {
 	await $.ajax({
-		url: 'http://localhost:3000/',
+		url: url,
 		type: 'get',
 		dataType: 'json',
-		success: function (data) {
-			tree = data
-			rootMessageBlob = tree.blobs[0]
+		success: data => {
+			return data
 		}
+	})
+	.catch(e => {
+		console.error(e);
 	});
 }
 
 
 function sendMessage(text, author = userName) {
+	saveSettingsToStorage();
 	if (rootMessageBlob == null) {
 		throw new Error('No root message blob found!')
 		rootMessageBlob = new MessageBlob(null);
@@ -53,4 +66,3 @@ function sendMessage(text, author = userName) {
 	});
 }
 
-getTreeFromServer()

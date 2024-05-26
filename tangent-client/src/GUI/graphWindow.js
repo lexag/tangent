@@ -5,7 +5,7 @@ function redrawGraph(tree) {
 	for (const [id, blob] of Object.entries(tree.blobs)) {
 		nodes.push(
 			{
-				name: blob.name ?? "unnamed blob",
+				name: blob.name ?? "",
 				id: id,
 				parent: blob.parent_id,
 				color: (id == window.selectedMessageBlob.id) ? '#034efc' : '#121212',

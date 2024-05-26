@@ -10,6 +10,7 @@ const MessageBlob = require('../common/class/messageBlob.js');
 function initTree() {
 	let newTree = new BlobTree({0: new MessageBlob(null)})
 	jsonfile.writeFile('/tangent/server/data/tree.json', newTree)
+	console.log("initialized new tree")
 }
 
 function saveTree(t) {
@@ -22,8 +23,6 @@ jsonfile.readFile('/tangent/server/data/tree.json')
 	.then(obj => { tree = obj; console.log("loaded tree from file"); })
 	.catch(error => console.error(error))
 
-
-initTree();
 
 // Handle requests to the url "/" ( http://localhost:3000/ )
 server({ security: { csrf: false } },

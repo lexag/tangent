@@ -77,9 +77,10 @@ function branchAtMessage(idx, blob_id) {
 		data: { 'message_index': idx, 'blob_id': blob_id },
 		dataType: 'json',
 		success: function (data) {
+			console.dir(data)
 			window.globalTree = data.tree
-			var frontBlob = window.globalTree[data.new_id]
-			selectedMessageBlob = frontBlob
+			var frontBlob = window.globalTree.blobs[data.new_id]
+			window.selectedMessageBlob = frontBlob
 			redrawGraph(window.globalTree)
 			redrawLinearChat(window.globalTree, frontBlob)
 		}

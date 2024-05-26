@@ -28,13 +28,14 @@ function redrawLinearChat(tree, messageBlob) {
 	
 	ancestry.forEach(blob => {
 		var n = 0;
+		$(".linear-message-space").append($('<div class="delimiter horizontal"></div>'))
 		blob.messages.forEach(message => {
 			var b = $($("#template-linear-message-bubble").html());
 			$(".linear-message-space").append(b);
 			b.find("p").text(message.text);
 			b.find(".branch-button").attr('message_index', n)
 			b.find(".branch-button").attr('blob_id', blob.id)
-			if (message.author == last_author) {
+			if (message.author == last_author & n != 0) {
 				b.find(".linear-message-info-line > .author-label").hide()
 				b.find(".linear-message-info-line > .time-label").hide()
 			} else {

@@ -46,7 +46,8 @@ const createWindow = () => {
 app.whenReady().then(() => {
 	ipcMain.handle('chat:sendMessage', sendMessage)
 	ipcMain.handle('chat:branchAtMessage', branchAtMessage)
-	ipcMain.handle('get:appctx', getappctx)
+	ipcMain.handle('appctx:get', getappctx)
+	ipcMain.handle('appctx:write', writeappctx)
 
 	createWindow();
 
@@ -72,9 +73,23 @@ app.on('window-all-closed', () => {
 	}
 });
 
-function getappctx() {
-	console.dir(appctx, { depth: null })
+function getappctx(event) {
+	console.log(appctx)
 	return appctx;
+}
+
+function writeappctx(event, keyPath, value) {
+	const keys = keyPath.split('.');
+	const targetKey = keys.pop();
+	let current = appctx;
+	for (let i = 0; i < keys.length; ++i) {
+		current = current[keys[i]];
+		if (!current) {
+			throw new Error('Specified key not found. ' + keys[i]);
+		}
+	}
+	current[targetKey] = value;
+	saveSettingsToStorage();
 }
 
 
@@ -136,7 +151,7 @@ async function sendMessage(event, text) {
 		method: 'POST',
 		body: JSON.stringify({ 'message': newMessage, 'blob_id': appctx.selectedMessageBlob.id },)
 	})
-	.catch(error => { console.error(error); success = false })
+		.catch(error => { console.error(error); success = false })
 
 	return [success, appctx]
 }
@@ -155,4 +170,10 @@ async function branchAtMessage(event, message_idx, blob_id) {
 			appctx.selectedMessageBlob = frontBlob
 		})
 		.catch(error => { console.error(error) })
+}
+
+
+function setConnectionSettings(event, serverURL, username) {
+	appctx.user.serverURL = serverURL
+	appctx.user.username = username
 }

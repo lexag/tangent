@@ -1,14 +1,14 @@
 
-function redrawGraph(tree) {
+function redrawGraph(ctx) {
 	var nodes = []
-	for (const [id, blob] of Object.entries(tree.blobs)) {
+	for (const [id, blob] of Object.entries(ctx.globalTree.blobs)) {
 		nodes.push(
 			{
 				name: blob.name ?? "",
 				id: id,
 				parent: blob.parent_id,
-				color: (id == window.selectedMessageBlob.id) ? '#034efc' : '#121212',
-				label_color: (id == window.selectedMessageBlob.id) ? '#dcdfe6' : '#034efc',
+				color: (id == ctx.selectedMessageBlob.id) ? '#034efc' : '#121212',
+				label_color: (id == ctx.selectedMessageBlob.id) ? '#dcdfe6' : '#034efc',
 				attributes: {
 					len: blob.messages.length, 
 					firstmessage: (blob.messages.length == 0) ? "no messages" : blob.messages[0]?.text.slice(0, 24),
@@ -16,9 +16,9 @@ function redrawGraph(tree) {
 				},
 				events: {
 					click: function (e) {
-						window.selectedMessageBlob = window.globalTree.blobs[this.id]
-						redrawLinearChat(window.globalTree, selectedMessageBlob);
-						redrawGraph(window.globalTree);
+						ctx.selectedMessageBlob = ctx.globalTree.blobs[this.id]
+						redrawLinearChat(ctx.globalTree, selectedMessageBlob);
+						redrawGraph(ctx.globalTree);
 					}
 				}
 			}

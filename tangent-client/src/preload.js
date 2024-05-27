@@ -1,2 +1,8 @@
-// See the Electron documentation for details on how to use preload scripts:
-// https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
+const { contextBridge, ipcRenderer } = require('electron')
+
+window.electronAPI = {
+	sendMessage: (text) => ipcRenderer.invoke('chat:sendMessage'),
+	branchAtMessage: (message_idx, blob_id) => ipcRenderer.invoke('chat:branchAtMessage'),
+	getappctx: () => ipcRenderer.invoke('get:appctx'),
+}
+

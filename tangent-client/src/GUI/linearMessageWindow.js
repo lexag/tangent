@@ -1,27 +1,35 @@
+const $ = require('jquery')
 
-function click_sendButton() {
-	sendMessage($("#linearChatbox").val());
-	$("#linearChatbox").val("");
+async function click_sendButton() {
+	var text = $("#linearChatbox").val()
+	console.log(text)
+	await window.electronAPI.sendMessage(text)
+	.then((success, appctx) => {
+		if (success) {
+			$("#linearChatbox").val("");
+			redrawLinearChat(appctx.globalTree, appctx.selectedMessageBlob)
+			redrawGraph(appctx.globalTree)
+		}
+	})
 }
 
 $("#linearChatbox").keypress(function (e) {
 	if(e.which === 13 && !e.shiftKey) {
 		e.preventDefault();
-	
 		click_sendButton();
 	}
 });
 
 
 
-function redrawLinearChat(tree, messageBlob) {
+function redrawLinearChat(ctx) {
 	$(".linear-message-space").empty();
 	last_author = ""
 	var ancestry = []
-	var m = messageBlob;
+	var m = ctx.selectedMessageBlob;
 	while (m != null) {
 		ancestry.push(m)
-		m = tree.blobs[m.parent_id]
+		m = ctx.globalTree.blobs[m.parent_id]
 	}
 	ancestry.reverse()
 	
@@ -51,5 +59,5 @@ function redrawLinearChat(tree, messageBlob) {
 function click_branchButton(message_element) {
 	var idx = message_element.getAttribute('message_index')
 	var id = message_element.getAttribute('blob_id')
-	branchAtMessage(idx, id);
+	window.electronAPI.branchAtMessage(idx, id)
 }

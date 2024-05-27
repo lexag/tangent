@@ -1,7 +1,6 @@
 
 function redrawGraph(tree) {
 	var nodes = []
-	console.log(tree)
 	for (const [id, blob] of Object.entries(tree.blobs)) {
 		nodes.push(
 			{

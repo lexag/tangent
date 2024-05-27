@@ -70,7 +70,6 @@ function sendMessage(text, author = userName) {
 
 
 function branchAtMessage(idx, blob_id) {
-	console.log({ 'message_index': idx, 'blob_id': blob_id })
 	$.ajax({
 		url: serverURL + '/branch',
 		type: 'post',

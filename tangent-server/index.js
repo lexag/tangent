@@ -34,7 +34,6 @@ server({ security: { csrf: false } },
 			return status(201)
 		}),
 		post('/branch', ctx => {
-			console.log(ctx.data)
 			var newBlob = BlobTree.splitBlobAtMessageIndex(tree, ctx.data.blob_id, ctx.data.message_index)
 			saveTree(tree)
 			return status(201).send({"tree": tree, "new_id": newBlob.id})

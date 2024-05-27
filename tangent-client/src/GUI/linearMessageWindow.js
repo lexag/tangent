@@ -24,7 +24,6 @@ function redrawLinearChat(tree, messageBlob) {
 		m = tree.blobs[m.parent_id]
 	}
 	ancestry.reverse()
-	console.log(ancestry)
 	
 	ancestry.forEach(blob => {
 		var n = 0;
